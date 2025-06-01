@@ -3,7 +3,6 @@
 # Piñata titans
 # AND one at the bridde
 # Pumpkin soccer in the treee!!!
-# suppli at tent
 #
 # BUGS
 # OnCharacterDie error probably masterclient
@@ -374,6 +373,7 @@ class Main
             titan.Size = self._islandTitanSizeId;
             titan.MaxHealth = self.IslandTitanMaxHealth;
             titan.Health = self.IslandTitanMaxHealth;
+            titan.Name = "Island Titan";
             titan.AttackSpeedMultiplier = 2;
             titan.AttackPause = 0.4;
             titan.DetectRange = 100000;
@@ -381,7 +381,6 @@ class Main
             titan.AttackWait = 0.4;
             titan.RunSpeedBase = 25;
             titan.RotateSpeed = 5;
-            titan.Name = "Island Titan";
 
             titan.Emote("Roar");
             self.IslandTitanBehaviour(titan);
