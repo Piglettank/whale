@@ -3,14 +3,16 @@
 # Piñata titans
 # AND one at the bridde
 # Pumpkin soccer in the treee!!!
+# more titan spawn points
 #
 # BUGS
 # OnCharacterDie error probably masterclient
+# Null check on island titan roaring and growing coroutine  
 
 class Main
 {
-    BaseTitanAmount = 30;
-    SeaTitanAmount = 12;
+    BaseTitanAmount = 36;
+    SeaTitanAmount = 6;
     
     CrawlerEnabled = true;
     ConfusedTitanEnabled = true;
@@ -61,6 +63,7 @@ class Main
             self.SpawnSeaTitans();
             self.SpawnChillingBros();
             self.SpawnBabyCrawler();
+            self.RandomizeCandySpawns();
 
             #teleporterTitan = Game.SpawnTitanAt("Normal", self._testPosition);
             #teleporterTitan.Size = self._teleporerSizeID;
@@ -388,6 +391,25 @@ class Main
         } 
     }
 
+    function RandomizeCandySpawns() {
+        candies = Map.FindMapObjectsByTag("candy");
+        realCandies = List();
+
+        for(candy in candies) {
+            keepCandy = Random().RandomFloat(0, 1) > 0.5;
+            if(keepCandy) {
+                realCandies.Add(keepCandy);
+            } else {
+                candyZoneName = candy.Name + "Zone";
+                candyZone = Map.FindMapObjectByName(candyZoneName);
+                candy.Active = false;
+                candyZone.Active = false;
+            }
+        }
+
+        Game.Print("There are " + Convert.ToString(realCandies.Count) + " candies this time.");
+    }
+
     coroutine IslandTitanBehaviour(titan)
     {
         for(tick in Range(0, 100000, 1))
@@ -626,6 +648,20 @@ class Main
         self._playerCandyAmount.Set(index, currentSnackAmount);
         
         Game.Print(name + " has eaten their " + Convert.ToString(currentSnackAmount) + " candy");
+
+        candyAmount = Map.FindMapObjectsByTag("candy").Count;
+        if(candyAmount == 10) {
+            Game.Print("There are " + Convert.ToString(candyAmount) + " candies left.");
+        }
+        if(candyAmount == 5) {
+            Game.Print("There are " + Convert.ToString(candyAmount) + " candies left.");
+        }
+        if(candyAmount == 0) {
+            Game.Print("All the candies have been eaten! Enjoy titan rain!");
+            self.TitanRainEnabled = true;
+            self.TitanRain();
+        }
+
     }
 
     function CandyProgress()
